@@ -1,17 +1,28 @@
+from kafka import KafkaProducer
+import json
 import time
 import random
-import requests
 
-URL = "http://localhost:8080/api/transactions"
+producer = KafkaProducer(
+    bootstrap_servers='localhost:9092',
+    value_serializer=lambda v:
+        json.dumps(v).encode('utf-8')
+)
 
-types = ["TRANSFER", "CASH_OUT", "DEPOSIT", "PAYMENT"]
+types = [
+    "TRANSFER",
+    "CASH_OUT",
+    "DEPOSIT",
+    "PAYMENT"
+]
 
 def generate_txn():
+
     amount = random.randint(1000, 1000000)
+
     oldbalance = random.randint(10000, 500000)
 
     old_dest = random.randint(0, 300000)
-
 
     return {
         "type": random.choice(types),
@@ -23,12 +34,11 @@ def generate_txn():
     }
 
 while True:
+
     txn = generate_txn()
 
-    try:
-        res = requests.post(URL, json=txn)
-        print(res.json())
-    except Exception as e:
-        print("Error:", e)
+    producer.send("transactions-topic", txn)
 
-    time.sleep(random.uniform(0.5, 2))  # realistic delay
+    print("Sent:", txn)
+
+    time.sleep(random.uniform(0.5, 2))

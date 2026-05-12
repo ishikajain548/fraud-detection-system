@@ -10,11 +10,13 @@ The system simulates live banking transactions, evaluates risk in real time, and
 
 ### Real-Time Fraud Detection
 
-- Live transaction stream using **WebSocket (STOMP)**
-- Instant fraud scoring and decisioning (`ALLOW | REVIEW | BLOCK`)
-- Continuous monitoring dashboard
+- Live transaction streaming using Apache Kafka
+- Event-driven fraud processing pipeline
+- Real-time ML fraud scoring
+- Instant fraud decisioning (`ALLOW | REVIEW | BLOCK`)
+- Continuous WebSocket-based dashboard updates
+- Low-latency distributed processing architecture
 
----
 
 ### Hybrid Intelligence Engine
 
@@ -72,50 +74,52 @@ Each triggers:
 
 ## System Architecture
 
-Transaction Simulator (Python)
-
-             ↓
-
-Spring Boot Backend (REST API)
-
-             ↓
-
-FastAPI ML Service
-
-             ↓
-
-┌────────────────────────────┐
-
-│  ML Model (Fraud Score)            │
-
-│  Rule Engine (Risk Logic)          │
-
-│  Fusion Layer                      │
-
-│  SHAP Explainer                    │
-
-└────────────────────────────┘
-
-             ↓
-
-       Fraud Decision 
-
-             ↓
- 
-    WebSocket Stream (STOMP)
-
-             ↓
-
-React Dashboard (Live Monitoring + SHAP)
+Python Transaction Simulator
+            ↓
+      Kafka Producer
+            ↓
+ ┌─────────────────────┐
+ │   Kafka Topic             │
+ │ transactions-topic        │
+ └─────────────────────┘
+            ↓
+ Spring Boot Kafka Consumer
+            ↓
+     Fraud Processing Layer
+            ↓
+      FastAPI ML Service
+            ↓
+ ┌─────────────────────┐
+ │ ML Fraud Detection Model  │
+ │ Rule-Based Risk Engine    │
+ │ Fusion Decision Layer     │
+ │ SHAP Explainability Layer│
+ └─────────────────────┘
+            ↓
+     Fraud Decision Engine
+     (ALLOW | REVIEW | BLOCK)
+            ↓
+     MySQL Transaction Store
+            ↓
+   WebSocket Streaming (STOMP)
+            ↓
+   React Monitoring Dashboard
 
 
 ---
 
 ## Tech Stack
 
+### Streaming & Messaging
+
+- Apache Kafka
+- Event-driven architecture
+- Kafka Producer / Consumer pipeline
+
 ### Backend
 
 - Java Spring Boot
+- Spring Kafka
 - Spring WebSocket (STOMP)
 - REST APIs
 
@@ -133,11 +137,15 @@ React Dashboard (Live Monitoring + SHAP)
 - Recharts (visualization)
 - SockJS + STOMP client
 
+### Database
+
+- MySQL
+
 ### Simulation Engine
 
 - Python transaction generator
 - Realistic fraud pattern simulation
-- Burst + anomaly-based data generation
+- Burst + anomaly-based streaming generation
 
 ---
 
@@ -193,6 +201,24 @@ A custom generator creates realistic transaction streams:
 - Real-time streaming simulation
 
 ---
+---
+
+## Kafka Streaming Pipeline
+
+The system uses Apache Kafka as a real-time event streaming platform.
+
+### Streaming Flow
+
+Python Simulator
+    ↓
+Kafka Producer
+    ↓
+transactions-topic
+    ↓
+Spring Boot Kafka Consumer
+    ↓
+Fraud Detection Pipeline
+
 
 ## Project Demo
 
@@ -202,24 +228,56 @@ A custom generator creates realistic transaction streams:
 
 ## Key Highlights
 
-- Real-time distributed system design
-- Hybrid AI + rule-based decision system
-- Explainable AI (SHAP integration)
-- Production-style fraud monitoring UI
-- Event-driven architecture
-- Live transaction simulation engine
+- Real-time distributed fraud detection system
+- Apache Kafka event streaming integration
+- Hybrid ML + rule-based intelligence engine
+- Explainable AI using SHAP
+- Event-driven microservice-style architecture
+- Live WebSocket transaction monitoring
+- Real-time fraud simulation engine
+- Dockerized streaming infrastructure
+- Production-inspired system design
 
 ---
+---
+
+## Running the Project
+
+### Start Kafka
+
+docker compose up
+
+### Start Backend
+
+mvn spring-boot:run
+
+### Start Ml Service
+
+uvicorn app:app --reload
+
+### Start Frontend
+
+npm run dev
+
+### Start python Transaction Simulator
+
+python simulate.py
+
+
+
 
 ## What Makes This Project Unique
 
-Unlike typical ML projects, this system:
+Unlike traditional ML-based fraud detection projects, this platform:
 
-- Works in **real-time streaming mode**
-- Explains prediction (XAI layer)
-- Uses **hybrid intelligence (ML + Rules)**
-- Simulates **real banking fraud scenarios**
-- Provides **investigation-ready dashboard UI**
+- Processes transactions in real-time using Apache Kafka
+- Uses event-driven streaming architecture
+- Combines ML + rule-based fraud intelligence
+- Provides explainable AI insights using SHAP
+- Simulates production-style banking transaction streams
+- Streams live fraud decisions to a monitoring dashboard
+- Demonstrates distributed system communication patterns
+- Uses asynchronous processing for scalability
 
 ---
 
@@ -241,3 +299,9 @@ Built as a **full-stack AI system project** demonstrating:
 - Backend system design
 - Real-time architecture
 - Explainable AI integration
+
+---
+
+## Contributor
+
+Ishika Jain
