@@ -74,7 +74,7 @@ Each triggers:
 
 ## System Architecture
 
-![System-Architecture](screenshots/system architecture.png)
+![System-Architecture](screenshots/system-architecture.png)
 
 ---
 
