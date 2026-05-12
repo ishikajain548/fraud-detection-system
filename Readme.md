@@ -74,37 +74,7 @@ Each triggers:
 
 ## System Architecture
 
-Python Transaction Simulator
-            ↓
-      Kafka Producer
-            ↓
- ┌─────────────────────┐
- │   Kafka Topic             │
- │ transactions-topic        │
- └─────────────────────┘
-            ↓
- Spring Boot Kafka Consumer
-            ↓
-     Fraud Processing Layer
-            ↓
-      FastAPI ML Service
-            ↓
- ┌─────────────────────┐
- │ ML Fraud Detection Model  │
- │ Rule-Based Risk Engine    │
- │ Fusion Decision Layer     │
- │ SHAP Explainability Layer│
- └─────────────────────┘
-            ↓
-     Fraud Decision Engine
-     (ALLOW | REVIEW | BLOCK)
-            ↓
-     MySQL Transaction Store
-            ↓
-   WebSocket Streaming (STOMP)
-            ↓
-   React Monitoring Dashboard
-
+![System-Architecture](screenshots/system architecture.png)
 
 ---
 
